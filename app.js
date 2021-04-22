@@ -1,55 +1,64 @@
-const chalk = require('chalk');
-const { describe } = require('yargs');
 const yargs = require('yargs');
-
-// Colors
-const green = function (msg) {
-  console.log(chalk.green(msg));
-};
-
-const red = function (msg) {
-  console.log(chalk.red(msg));
-};
-
-chalk.green;
+const notes = require('./notes');
 
 // Customize yargs version
 yargs.version('1.1.0');
 
-// Create add command
+// Create add note command
 yargs.command({
   command: 'add',
   describe: 'Add a new node',
-  handler: function () {
-    green('Adding!');
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    },
+    body: {
+      describe: 'Note body',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: function (argv) {
+    const {title, body} = argv;
+    notes.addNote({title, body});
   }
 });
 
-// Create remove command
+// Create remove note command
 yargs.command({
   command: 'remove',
   describe: 'Remove node',
-  handler: function () {
-    red('Node removed!');
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: function (argv) {
+    const {title} = argv;
+    notes.removeNote({title});
   }
 });
 
-// Create add command
+// Create list notes command
 yargs.command({
   command: 'list',
   describe: 'Show a list of nodes',
   handler: function () {
-    green('Listing nodes!');
+    console.log('Listing nodes!');
   }
 });
 
-// Create add command
+// Create read note command
 yargs.command({
   command: 'read',
   describe: 'Read a node',
   handler: function () {
-    green('Reading node!');
+    console.log('Reading node!');
   }
 });
 
-console.log(yargs.argv);
+yargs.parse();
