@@ -13,8 +13,18 @@ const yellow = function (msg) {
   console.log(chalk.yellow(msg));  
 };
 
+const title = (msg) => {
+  console.log(chalk.blue.underline.bold(msg));  
+};
+
+const body = (msg) => {
+  console.log(chalk.cyan(`  ${msg}`));  
+};
+
 module.exports = {
   green: green,
   red: red,
-  yellow: yellow
+  yellow: yellow,
+  title: title,
+  body: body
 };
